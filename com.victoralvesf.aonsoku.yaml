@@ -42,6 +42,9 @@ modules:
       - npm run build:unpack
       - cp -a ../dist/linux-unpacked /app/main
       - install -Dm755 -t /app/bin/ ../aonsoku.sh
+      #- install -Dm644 usr/share/applications/Aonsoku.desktop /app/share/applications/com.victoralvesf.Aonsoku.desktop
+      - install -Dm644 /app/main/resources/resources/assets/tray/other/icon-32x32.png /app/share/icons/hicolor/32x32/apps/${FLATPAK_ID}.png
+      - install -Dm644 /app/main/resources/resources/assets/tray/other/icon-256x256.png  /app/share/icons/hicolor/256x256/apps/${FLATPAK_ID}.png
     subdir: main
     sources:
       - type: git
@@ -52,6 +55,7 @@ modules:
       - type: dir
         path: .
         dest: main
+      #- generated-sources.json
       - type: script
         dest-filename: aonsoku.sh
         commands:
