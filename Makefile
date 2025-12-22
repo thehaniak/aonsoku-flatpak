@@ -15,8 +15,7 @@ venv: # Create a Python virtual environment
 	python3 -m venv .venv
 
 flatpak-node-generator: venv # Install flatpak-node-generator in the virtual environment
-	. .venv/bin/activate
-	pip install flatpak-node-generator
+	. .venv/bin/activate && pip install flatpak-node-generator
 
 clean: # Clean up build artifacts
 	rm -rf .flatpak-builder build .venv

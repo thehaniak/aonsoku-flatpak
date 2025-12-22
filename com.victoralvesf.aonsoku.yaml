@@ -10,9 +10,12 @@ command: run.sh
 separate-locales: false
 finish-args:
   - --share=ipc
+  - --device=dri
   - --socket=x11
   - --socket=pulseaudio
   - --share=network
+  - --env=ELECTRON_TRASH=gio
+  - --env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons
 build-options:
   append-path: /usr/lib/sdk/node24/bin
   env:
@@ -21,7 +24,7 @@ modules:
   - name: Aonsoku
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node24/bin
+      #append-path: /usr/lib/sdk/node24/bin
       build-args:
         - --share=network
       env:
@@ -33,18 +36,22 @@ modules:
     build-commands:
       - npm install electron-builder --include=dev
       - npm install --package-lock-only
-      - npm install
-      #- npm run build:linux
+      - npm run dist --linux --dir
+      # Bundle app and dependencies
+      - cp -a dist/linux*unpacked /app/main
+      # Install app wrapper
+      - install -Dm755 -t /app/bin/ ../run.sh
     subdir: main
     sources:
       - type: git
         url: https://github.com/victoralvesf/aonsoku.git
+        branch: main
         #commit: cb1b4c9269670b6e03166fa4985c74b643d61849
-        tag: v0.10.2
+        #tag: v0.10.2
       - type: dir
-        path: ..
+        path: .
         dest: main
       - type: script
         dest-filename: run.sh
         commands:
-          - zypak-wrapper.sh /app/main/Aonsoku "$@"
+          - zypak-wrapper /out/main/index.js "$@"
