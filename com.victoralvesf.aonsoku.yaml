@@ -36,9 +36,9 @@ modules:
     build-commands:
       - npm install electron-builder --include=dev
       - npm install --package-lock-only
-      - npm run dist --linux --dir
+      - npm run build:linux
       # Bundle app and dependencies
-      - cp -a dist/linux*unpacked /app/main
+      - cp -a dist/linux-unpacked /app/main
       # Install app wrapper
       - install -Dm755 -t /app/bin/ ../run.sh
     subdir: main
@@ -54,4 +54,4 @@ modules:
       - type: script
         dest-filename: run.sh
         commands:
-          - zypak-wrapper /out/main/index.js "$@"
+          - zypak-wrapper /app/main/aonsoku "$@"

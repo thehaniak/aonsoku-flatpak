@@ -8,7 +8,7 @@ BUILD_PATH = build
 full-build: flatpak-node-generator # Build the Flatpak package
 	flatpak-builder ${OPTS_FULL} ${BUILD_PATH} com.victoralvesf.aonsoku.yaml
 
-build: flatpak-node-generator # Build the Flatpak package with dependencies already installed
+build: clean flatpak-node-generator # Build the Flatpak package with dependencies already installed
 	flatpak-builder ${OPTS} ${BUILD_PATH} com.victoralvesf.aonsoku.yaml
 
 venv: # Create a Python virtual environment
@@ -19,6 +19,3 @@ flatpak-node-generator: venv # Install flatpak-node-generator in the virtual env
 
 clean: # Clean up build artifacts
 	rm -rf .flatpak-builder build .venv
-
-find:
-	find ./ -name 'main' -exec find {} -name index.js \;
