@@ -6,7 +6,7 @@ base: org.electronjs.Electron2.BaseApp
 base-version: '25.08'
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.node24
-command: run.sh
+command: aonsoku.sh
 separate-locales: false
 finish-args:
   - --share=ipc
@@ -24,7 +24,7 @@ modules:
   - name: Aonsoku
     buildsystem: simple
     build-options:
-      #append-path: /usr/lib/sdk/node24/bin
+      append-path: /usr/lib/sdk/node24/bin
       build-args:
         - --share=network
       env:
@@ -34,13 +34,11 @@ modules:
         #npm_config_proxy: null
         #npm_config_https-proxy: null
     build-commands:
-      - npm install electron-builder --include=dev
-      - npm install --package-lock-only
-      - npm run build:linux
-      # Bundle app and dependencies
-      - cp -a dist/linux-unpacked /app/main
-      # Install app wrapper
-      - install -Dm755 -t /app/bin/ ../run.sh
+      - npm install
+      - npm run electron:build
+      - npm run build:unpack
+      - cp -a ./dist/linux*unpacked /app/main
+      - install -Dm755 -t /app/bin/ ../aonsoku.sh
     subdir: main
     sources:
       - type: git
@@ -52,6 +50,6 @@ modules:
         path: .
         dest: main
       - type: script
-        dest-filename: run.sh
+        dest-filename: aonsoku.sh
         commands:
           - zypak-wrapper /app/main/aonsoku "$@"
