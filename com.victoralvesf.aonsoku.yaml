@@ -1,4 +1,4 @@
-app-id: com.victoralvesf.aonsoku
+app-id: com.victoralvesf.Aonsoku
 runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
@@ -14,11 +14,11 @@ finish-args:
   - --socket=pulseaudio
   - --share=network
 build-options:
-  append-path: /usr/lib/sdk/node18/bin
+  append-path: /usr/lib/sdk/node24/bin
   env:
     NPM_CONFIG_LOGLEVEL: info
 modules:
-  - name: aonsoku
+  - name: Aonsoku
     buildsystem: simple
     build-options:
       append-path: /usr/lib/sdk/node24/bin
@@ -31,21 +31,20 @@ modules:
         #npm_config_proxy: null
         #npm_config_https-proxy: null
     build-commands:
-      - pip3 install flatpak-node-generator
       - npm install electron-builder --include=dev
       - npm install --package-lock-only
-      - flatpak-node-generator npm package-lock.json
-      # Install npm dependencies
-      - npm install 
-      # Build the app; in this example the `dist` script
-      - npm run build:linux
+      - npm install
+      #- npm run build:linux
+    subdir: main
     sources:
       - type: git
         url: https://github.com/victoralvesf/aonsoku.git
         #commit: cb1b4c9269670b6e03166fa4985c74b643d61849
         tag: v0.10.2
-          #- generated-sources.json
+      - type: dir
+        path: ..
+        dest: main
       - type: script
         dest-filename: run.sh
         commands:
-          - zypak-wrapper.sh /app/main/electron-sample-app "$@"
+          - zypak-wrapper.sh /app/main/Aonsoku "$@"
