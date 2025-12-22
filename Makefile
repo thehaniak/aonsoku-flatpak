@@ -20,11 +20,8 @@ flatpak-node-generator: venv # Install flatpak-node-generator in the virtual env
 clean: # Clean up build artifacts
 	rm -rf .flatpak-builder ${BUILD_PATH} .venv
 
-clean-build-path: # Clean up only the build artifacts
-	rm -rf ${BUILD_PATH}
-
-flatpak-run: # Run the Flatpak application
+run: # Run the Flatpak application
 	flatpak run com.victoralvesf.Aonsoku
 
-flatpak-remove: # Uninstall the Flatpak application
+remove: # Uninstall the Flatpak application
 	flatpak remove com.victoralvesf.Aonsoku
