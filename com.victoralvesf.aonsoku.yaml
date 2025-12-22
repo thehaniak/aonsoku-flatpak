@@ -11,6 +11,7 @@ separate-locales: false
 finish-args:
   - --share=ipc
   - --device=dri
+  - --socket=wayland
   - --socket=x11
   - --socket=pulseaudio
   - --share=network
@@ -37,7 +38,7 @@ modules:
       - npm install
       - npm run electron:build
       - npm run build:unpack
-      - cp -a ./dist/linux*unpacked /app/main
+      - cp -a ../dist/linux-unpacked /app/main
       - install -Dm755 -t /app/bin/ ../aonsoku.sh
     subdir: main
     sources:
