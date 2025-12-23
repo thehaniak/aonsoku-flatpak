@@ -40,8 +40,10 @@ modules:
       - npm run build:unpack
       - cp -a ../dist/linux-unpacked /app/main
       - install -Dm755 -t /app/bin/ ../aonsoku.sh
-      - install -Dm644 /app/main/resources/resources/assets/tray/other/icon-32x32.png /app/share/icons/hicolor/32x32/apps/${FLATPAK_ID}.png
-      - install -Dm644 /app/main/resources/resources/assets/tray/other/icon-256x256.png  /app/share/icons/hicolor/256x256@2/apps/${FLATPAK_ID}.png
+      - patch-desktop-filename /app/main/resources/app.asar
+      - install -Dm644 /app/main/resources/resources/assets/tray/other/icon-256x256.png /app/share/icons/hicolor/32x32/apps/${FLATPAK_ID}.png
+      - install -Dm644 /app/main/resources/resources/assets/tray/other/icon-256x256.png /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
+      - install -Dm644 /app/main/resources/resources/assets/tray/other/icon-256x256.png /app/share/icons/hicolor/256x256/apps/${FLATPAK_ID}.png
     subdir: main
     sources:
       - type: git
