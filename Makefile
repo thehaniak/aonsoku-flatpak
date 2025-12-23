@@ -23,9 +23,12 @@ build-full-install: clean flatpak-node-generator # Build the Flatpak package
 build-fast-install: clean-build-path flatpak-node-generator # Build the Flatpak package without cleaning .flatpak-builder directory
 	flatpak-builder --user --install ${BUILD_PATH} ${FILE_YAML}
 
+build-export: build flatpak-export # Build and export the Flatpak package
+	@echo "[i] Flatpak package built and exported to ${FILE_FLATPAK}"
+
 flatpak-export: # Export the built Flatpak package to the local repository
 	flatpak build-export export ${BUILD_PATH}
-	flatpak build-bundle export ${FILE_FLATPAK} ${APP_ID}
+	flatpak build-bundle export ${FILE_FLATPAK} ${FLATPACK_ID}
 
 install-dependencies-locally: # Install Flatpak runtime and SDK dependencies locally
 	flatpak install -y --user flathub org.freedesktop.Platform//25.08
@@ -52,3 +55,6 @@ run: # Run the Flatpak application
 
 remove: # Uninstall the Flatpak application
 	flatpak remove -y ${FLATPACK_ID}
+
+lint: # Lint the Flatpak YAML file
+	flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest ${FILE_YAML}
