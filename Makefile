@@ -8,8 +8,11 @@ BUILD_PATH=build
 full-build: clean flatpak-node-generator # Build the Flatpak package
 	flatpak-builder ${OPTS_FULL} ${BUILD_PATH} com.victoralvesf.aonsoku.yaml
 
-build: clean-build-path flatpak-node-generator # Build the Flatpak package with dependencies already installed
+build: clean flatpak-node-generator # Build the Flatpak package with dependencies already installed
 	flatpak-builder ${OPTS} ${BUILD_PATH} com.victoralvesf.aonsoku.yaml
+
+fast-build: clean-build-path flatpak-node-generator # Build the Flatpak package without cleaning .flatpak-builder directory
+	flatpak-builder --user --install ${BUILD_PATH} com.victoralvesf.aonsoku.yaml
 
 venv: # Create a Python virtual environment
 	python3 -m venv .venv
