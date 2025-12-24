@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Aonsoku
-Exec=flatpak run com.victoralvesf.Aonsoku
+Exec=aonsoku.sh
 Icon=com.victoralvesf.Aonsoku.png
 Categories=Audio;
