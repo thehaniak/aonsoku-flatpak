@@ -3,5 +3,5 @@ Type=Application
 Comment=A Navidrome/Subsonic audio player
 Name=Aonsoku
 Exec=aonsoku.sh
-Icon=com.victoralvesf.Aonsoku
+Icon=io.github.victoralvesf.Aonsoku
 Categories=Audio;

@@ -1,6 +1,6 @@
 # Makefile for building, running and cleaning the Flatpak package
 
-FLATPACK_ID = com.victoralvesf.Aonsoku
+FLATPACK_ID = io.github.victoralvesf.Aonsoku
 FILE_YAML = ${FLATPACK_ID}.yaml
 FILE_FLATPAK = ${FLATPACK_ID}.flatpak
 
