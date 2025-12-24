@@ -40,14 +40,17 @@ modules:
       - npm run build:unpack
       - cp -a ../dist/linux-unpacked /app/main
       - install -Dm755 -t /app/bin/ ../aonsoku.sh
-      - install -Dm644 ../main/${FLATPAK_ID}.desktop /app/share/applications/${FLATPAK_ID}.desktop
-      - install -Dm644 ../main/icons/icon-16x16.png /app/share/icons/hicolor/16x16/apps/${FLATPAK_ID}.png
-      - install -Dm644 ../main/icons/icon-32x32.png /app/share/icons/hicolor/32x32/apps/${FLATPAK_ID}.png
-      - install -Dm644 ../main/icons/icon-48x48.png /app/share/icons/hicolor/48x48/apps/${FLATPAK_ID}.png
+      - install -Dm644 ../main/${FLATPAK_ID}.desktop  /app/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm644 ../main/icons/icon-16x16.png   /app/share/icons/hicolor/16x16/apps/${FLATPAK_ID}.png
+      - install -Dm644 ../main/icons/icon-32x32.png   /app/share/icons/hicolor/32x32/apps/${FLATPAK_ID}.png
+      - install -Dm644 ../main/icons/icon-48x48.png   /app/share/icons/hicolor/48x48/apps/${FLATPAK_ID}.png
       - install -Dm644 ../main/icons/icon-128x128.png /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
-      - install -Dm644 ../main/icons/icon-256x256.png /app/share/icons/hicolor/256x256@2/apps/${FLATPAK_ID}.png
-      - install -Dm644 ../main/icons/icon-32x32.png /app/share/icons/hicolor/32x32/apps/${FLATPAK_ID}-tray.png
-      - install -Dm644 ../main/icons/icon-128x128.png /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}-tray.png
+      - install -Dm644 ../main/icons/icon-256x256.png /app/share/icons/hicolor/256x256/apps/${FLATPAK_ID}.png
+      - install -Dm644 ../main/icons/icon-16x16.png   /app/main/resources/assets/tray/other/icon-16x16.png
+      - install -Dm644 ../main/icons/icon-32x32.png   /app/main/resources/assets/tray/other/icon-32x32.png
+      - install -Dm644 ../main/icons/icon-48x48.png   /app/main/resources/assets/tray/other/icon-48x48.png
+      - install -Dm644 ../main/icons/icon-128x128.png /app/main/resources/assets/tray/other/icon-128x128.png
+      - install -Dm644 ../main/icons/icon-256x256.png /app/main/resources/assets/tray/other/icon-256x256.png
     subdir: main
     sources:
       - type: git
