@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Application
+Comment=A Navidrome/Subsonic audio player
 Name=Aonsoku
 Exec=aonsoku.sh
-Icon=com.victoralvesf.Aonsoku.png
+Icon=com.victoralvesf.Aonsoku
 Categories=Audio;
