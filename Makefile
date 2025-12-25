@@ -51,8 +51,7 @@ clean-build-path: # Clean up only the build path
 	rm -rf ${BUILD_PATH}
 
 run: # Run the Flatpak application
-	flatpak run ${FLATPACK_ID} --trace-deprecation
-
+	flatpak run ${FLATPACK_ID} --trace-deprecation --verbose --ostree-verbose --filesystem=xdg-desktop:create --filesystem=home
 remove: # Uninstall the Flatpak application
 	flatpak remove -y ${FLATPACK_ID}
 
