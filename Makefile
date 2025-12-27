@@ -4,9 +4,9 @@ FLATPACK_ID = io.github.victoralvesf.aonsoku
 FILE_YAML = ${FLATPACK_ID}.yaml
 FILE_FLATPAK = ${FLATPACK_ID}.flatpak
 
-OPTS = --arch=x86_64 --force-clean --user
+OPTS = --arch=x86_64 --force-clean --user --verbose
 OPTS_INSTALL = ${OPTS} --install
-OPTS_FULL_INSTALL = ${OPTS} --install-deps-from=flathub
+OPTS_FULL_INSTALL = ${OPTS_INSTALL} --install-deps-from=flathub
 
 BUILD_PATH=build
 
@@ -52,6 +52,7 @@ clean-build-path: # Clean up only the build path
 
 run: # Run the Flatpak application
 	flatpak run ${FLATPACK_ID} --trace-deprecation --verbose --ostree-verbose --filesystem=xdg-desktop:create --filesystem=home
+
 remove: # Uninstall the Flatpak application
 	flatpak remove -y ${FLATPACK_ID}
 
