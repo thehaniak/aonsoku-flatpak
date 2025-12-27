@@ -25,18 +25,18 @@ build-options:
   env:
     NPM_CONFIG_LOGLEVEL: info
 modules:
-  - name: Aonsoku
+  - name: aonsoku
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node24/bin
+      append-path: /usr/lib/sdk/node24
       #build-args:
       #  - --share=network
       env:
-        XDG_CACHE_HOME: /run/build/Aonsoku/flatpak-node/cache
-        npm_config_cache: /run/build/Aonsoku/flatpak-node/npm-cache
+        XDG_CACHE_HOME: ${FLATPAK_BUILDER_BUILDDIR}/flatpak-node/cache
+        npm_config_cache: ${FLATPAK_BUILDER_BUILDDIR}/flatpak-node/npm-cache
         npm_config_offline: 'true'
     build-commands:
-      - npm install --offline
+      - npm install --offline --verbose
       - npm run electron:build
       - npm run build:unpack
       - cp -a ../dist/linux-unpacked /app/main
@@ -64,6 +64,7 @@ modules:
         path: .
         dest: main
       - generated-sources.json
+      #- npm.json
       - type: script
         dest-filename: aonsoku.sh
         commands:
