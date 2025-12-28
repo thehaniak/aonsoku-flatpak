@@ -45,19 +45,19 @@ flatpak-node-generator: setup-venv # Install flatpak-node-generator in the virtu
 	. .venv/bin/activate && pip install flatpak-node-generator
 
 clean: # Clean up build artifacts
-	rm -rf .flatpak-builder ${BUILD_PATH} .venv export temp-aonsoku ${FILE_FLATPAK}
+	rm -rf .flatpak-builder ${BUILD_PATH} .venv export temp-aonsoku *-generated-sources.json ${FILE_FLATPAK}
 
 clean-build-path: # Clean up only the build path
 	rm -rf ${BUILD_PATH}
 
-update-node-modules: clean flatpak-node-generator # Update node modules in the Flatpak package
+generated-sources: clean flatpak-node-generator # Update node modules in the Flatpak package
 	git clone https://github.com/victoralvesf/aonsoku.git temp-aonsoku
-	cd temp-aonsoku && npm install electron-builder@latest --verbose
-	cd temp-aonsoku && npm install --package-lock-only --verbose
+	cd temp-aonsoku && npm i electron-builder simple-git-hooks --verbose
+	cd temp-aonsoku && npm i pnpm-lock.yaml --package-lock-only --lockfile-version 3 --verbose
 	cd temp-aonsoku && flatpak-node-generator npm package-lock.json -o ../01-generated-sources.json
 	cd temp-aonsoku && flatpak-node-generator npm node_modules/minipass-sized/package-lock.json -o ../02-generated-sources.json
 	jq -sc "flatten | unique | sort_by(.type)" 01-generated-sources.json 02-generated-sources.json > generated-sources.json
-	rm -rf temp-aonsoku 01-generated-sources.json 02-generated-sources.json
+	rm -rf temp-aonsoku *-generated-sources.json
 
 run: # Run the Flatpak application
 	flatpak run ${FLATPACK_ID} --trace-deprecation --verbose --ostree-verbose --filesystem=xdg-desktop:create --filesystem=home

@@ -32,11 +32,11 @@ modules:
       #build-args:
       #  - --share=network
       env:
-        XDG_CACHE_HOME: ${FLATPAK_BUILDER_BUILDDIR}/flatpak-node/cache
-        npm_config_cache: ${FLATPAK_BUILDER_BUILDDIR}/flatpak-node/npm-cache
+        XDG_CACHE_HOME: /run/build/aonsoku/flatpak-node/cache
+        npm_config_cache: /run/build/aonsoku/flatpak-node/npm-cache
         npm_config_offline: 'true'
     build-commands:
-      - npm install --offline --verbose
+      - npm i --offline
       - npm run electron:build
       - npm run build:unpack
       - cp -a ../dist/linux-unpacked /app/main
@@ -64,7 +64,6 @@ modules:
         path: .
         dest: main
       - generated-sources.json
-      #- npm.json
       - type: script
         dest-filename: aonsoku.sh
         commands:
