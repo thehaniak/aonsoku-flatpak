@@ -45,24 +45,16 @@ flatpak-node-generator: setup-venv # Install flatpak-node-generator in the virtu
 	. .venv/bin/activate && pip install flatpak-node-generator
 
 clean: # Clean up build artifacts
-	rm -rf .flatpak-builder ${BUILD_PATH} export temp-aonsoku *-generated-sources.json ${FILE_FLATPAK}
+	rm -rf .flatpak-builder ${BUILD_PATH} export temp-aonsoku ${FILE_FLATPAK}
 
 clean-build-path: # Clean up only the build path
 	rm -rf ${BUILD_PATH}
 
 yarn-sources: clean flatpak-node-generator # Update node modules in the Flatpak package
 	git clone https://github.com/victoralvesf/aonsoku.git temp-aonsoku
-	cd temp-aonsoku && ${YARN_BIN} cache clean && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json yarn.lock pnpm-lock.yaml
-	${YARN_BIN} --cwd temp-aonsoku config set yarn-offline-mirror-pruning true
-	${YARN_BIN} --cwd temp-aonsoku config set yarn-offline-mirror ./flatpak-node/yarn-mirror
-	${YARN_BIN} --cwd temp-aonsoku install
-	${YARN_BIN} --cwd temp-aonsoku add tsc
-	${YARN_BIN} --cwd temp-aonsoku add vite
-	${YARN_BIN} --cwd temp-aonsoku add electron
-	${YARN_BIN} --cwd temp-aonsoku add electron-vite
-	${YARN_BIN} --cwd temp-aonsoku add electron-builder
-	${YARN_BIN} --cwd temp-aonsoku install
-	cd temp-aonsoku && ${YARN_BIN} cache clean && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json pnpm-lock.yaml
+	cd temp-aonsoku && ${YARN_BIN} cache clean && rm -rf node_modules package-lock.json yarn.lock pnpm-lock.yaml
+	${YARN_BIN} --cwd temp-aonsoku install --production=false
+	cd temp-aonsoku && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json pnpm-lock.yaml
 	cd temp-aonsoku && flatpak-node-generator yarn -r yarn.lock --no-trim-index --electron-node-headers -o ../yarn-sources.json
 	cp temp-aonsoku/yarn.lock yarn.lock
 	rm -rf temp-aonsoku
@@ -70,15 +62,13 @@ yarn-sources: clean flatpak-node-generator # Update node modules in the Flatpak 
 generated-sources: clean flatpak-node-generator # Update node modules in the Flatpak package
 	git clone https://github.com/victoralvesf/aonsoku.git temp-aonsoku
 	cd temp-aonsoku && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json
-	cd temp-aonsoku && npm i tsc --verbose
-	cd temp-aonsoku && npm i yarn --verbose
-	cd temp-aonsoku && npm i electron --verbose
-	cd temp-aonsoku && npm i electron-builder --verbose
-	cd temp-aonsoku && npm i simple-git-hooks --verbose
-	cd temp-aonsoku && npm i tsc --verbose
-	cd temp-aonsoku && npm i vibe --verbose
+# 	cd temp-aonsoku && npm i tsc --verbose
+# 	cd temp-aonsoku && npm i vite --verbose
+# 	cd temp-aonsoku && npm i electron --verbose
+# 	cd temp-aonsoku && npm i electron-vite --verbose
+# 	cd temp-aonsoku && npm i electron-builder --verbose
+# 	cd temp-aonsoku && rm -rf node_modules yarn.lock pnpm-lock.yaml
 	cd temp-aonsoku && npm i --lockfile-version 3
-	cd temp-aonsoku && ${YARN_BIN} cache clean && npm cache clean -g --force --verbose && rm -rf node_modules yarn.lock pnpm-lock.yaml
 	cd temp-aonsoku && flatpak-node-generator npm -r package-lock.json --no-trim-index --electron-node-headers -o ../generated-sources.json
 	rm -rf temp-aonsoku
 

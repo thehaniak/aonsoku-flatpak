@@ -33,20 +33,18 @@ modules:
       append-path: /usr/lib/sdk/node24/bin
       env:
         npm_config_nodedir: /usr/lib/sdk/node24
-        XDG_CACHE_HOME: /run/build/aonsoku/flatpak-node/cache/electron
+        XDG_CACHE_HOME: /run/build/aonsoku/flatpak-node/cache
         npm_config_cache: /run/build/aonsoku/flatpak-node/npm-cache
         npm_config_offline: 'true'
+        CYPRESS_BINARY: /run/build/aonsoku/node_modules/cypress/bin/cypress
     build-commands:
       - rm -rf ../pnpm-lock.yaml
       - rm -rf ../node_modules
       - rm -rf ../package-lock.json
-      # - rm -rf ../yarn.lock
+      - yarn cache clean --offline
+      #- yarn --cwd /run/build/aonsoku/ config list --offline
 
-      #- yarn config list --offline
-      - npm install electron --offline --legacy-peer-deps
-      - npm run electron:build --offline
-
-      #- yarn --offline
+      - ELECTRON_SKIP_BINARY_DOWNLOAD=1 yarn install --offline
 
       # - npm run electron:build
       # - npm run build:unpack
@@ -87,8 +85,8 @@ modules:
           prefix "/run/build/aonsoku/flatpak-node/"
           --install.offline true
           --run.offline true
-      - generated-sources.json
-      # - yarn-sources.json
+      #- generated-sources.json
+      - yarn-sources.json
       - type: file
         path: yarn.lock
         dest: .
