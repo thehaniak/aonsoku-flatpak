@@ -28,17 +28,29 @@ modules:
   - name: aonsoku
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node24
-      #build-args:
-      #  - --share=network
+      # build-args:
+      #   - --share=network
+      append-path: /usr/lib/sdk/node24/bin
       env:
-        XDG_CACHE_HOME: /run/build/aonsoku/flatpak-node/cache
+        npm_config_nodedir: /usr/lib/sdk/node24
+        XDG_CACHE_HOME: /run/build/aonsoku/flatpak-node/cache/electron
         npm_config_cache: /run/build/aonsoku/flatpak-node/npm-cache
         npm_config_offline: 'true'
     build-commands:
-      - npm i --offline
-      - npm run electron:build
-      - npm run build:unpack
+      - rm -rf ../pnpm-lock.yaml
+      - rm -rf ../node_modules
+      - rm -rf ../package-lock.json
+      # - rm -rf ../yarn.lock
+
+      #- yarn config list --offline
+      - npm install electron --offline --legacy-peer-deps
+      - npm run electron:build --offline
+
+      #- yarn --offline
+
+      # - npm run electron:build
+      # - npm run build:unpack
+
       - cp -a ../dist/linux-unpacked /app/main
       - install -Dm755 -t /app/bin/ ../aonsoku.sh
       - install -Dm644 ../main/${FLATPAK_ID}.desktop      /app/share/applications/${FLATPAK_ID}.desktop
@@ -57,13 +69,29 @@ modules:
     sources:
       - type: git
         url: https://github.com/victoralvesf/aonsoku.git
-        #branch: main
-        commit: cb1b4c9269670b6e03166fa4985c74b643d61849
-        #tag: v0.10.2
-      - type: dir
-        path: .
+        commit: main
+      - type: file
+        path: io.github.victoralvesf.aonsoku.metainfo.xml
         dest: main
+      - type: file
+        path: io.github.victoralvesf.aonsoku.desktop
+        dest: main
+      - type: dir
+        path: icons
+        dest: main/icons
+      - type: inline
+        dest-filename: .yarnrc
+        contents: |
+          yarn-offline-mirror "/run/build/aonsoku/flatpak-node/yarn-mirror"
+          cache-folder "/run/build/aonsoku/flatpak-node/cache"
+          prefix "/run/build/aonsoku/flatpak-node/"
+          --install.offline true
+          --run.offline true
       - generated-sources.json
+      # - yarn-sources.json
+      - type: file
+        path: yarn.lock
+        dest: .
       - type: script
         dest-filename: aonsoku.sh
         commands:
