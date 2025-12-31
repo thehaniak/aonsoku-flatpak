@@ -28,27 +28,20 @@ modules:
   - name: aonsoku
     buildsystem: simple
     build-options:
-      # build-args:
-      #   - --share=network
       append-path: /usr/lib/sdk/node24/bin
       env:
         npm_config_nodedir: /usr/lib/sdk/node24
         XDG_CACHE_HOME: /run/build/aonsoku/flatpak-node/cache
         npm_config_cache: /run/build/aonsoku/flatpak-node/npm-cache
         npm_config_offline: 'true'
-        CYPRESS_BINARY: /run/build/aonsoku/node_modules/cypress/bin/cypress
     build-commands:
       - rm -rf ../pnpm-lock.yaml
       - rm -rf ../node_modules
       - rm -rf ../package-lock.json
       - yarn cache clean --offline
-      #- yarn --cwd /run/build/aonsoku/ config list --offline
-
-      - ELECTRON_SKIP_BINARY_DOWNLOAD=1 yarn install --offline
-
-      # - npm run electron:build
-      # - npm run build:unpack
-
+      - ELECTRON_SKIP_BINARY_DOWNLOAD=1 CYPRESS_INSTALL_BINARY=0 yarn --offline
+      - yarn run electron:build
+      - yarn run build:unpack
       - cp -a ../dist/linux-unpacked /app/main
       - install -Dm755 -t /app/bin/ ../aonsoku.sh
       - install -Dm644 ../main/${FLATPAK_ID}.desktop      /app/share/applications/${FLATPAK_ID}.desktop
@@ -81,11 +74,10 @@ modules:
         dest-filename: .yarnrc
         contents: |
           yarn-offline-mirror "/run/build/aonsoku/flatpak-node/yarn-mirror"
-          cache-folder "/run/build/aonsoku/flatpak-node/cache"
-          prefix "/run/build/aonsoku/flatpak-node/"
+          cache-folder "/run/downloads"
+          prefix "/run/downloads"
           --install.offline true
           --run.offline true
-      #- generated-sources.json
       - yarn-sources.json
       - type: file
         path: yarn.lock
