@@ -28,42 +28,51 @@ modules:
   - name: aonsoku
     buildsystem: simple
     build-options:
-      append-path: /usr/lib/sdk/node24
-      #build-args:
-      #  - --share=network
+      append-path: /usr/lib/sdk/node24/bin
       env:
+        npm_config_nodedir: /usr/lib/sdk/node24
         XDG_CACHE_HOME: /run/build/aonsoku/flatpak-node/cache
         npm_config_cache: /run/build/aonsoku/flatpak-node/npm-cache
         npm_config_offline: 'true'
     build-commands:
-      - npm i --offline
-      - npm run electron:build
-      - npm run build:unpack
+      - rm -rf ../pnpm-lock.yaml
+      - rm -rf ../node_modules
+      - rm -rf ../package-lock.json
+      - yarn cache clean --offline
+      - ELECTRON_SKIP_BINARY_DOWNLOAD=1 CYPRESS_INSTALL_BINARY=0 yarn --offline
+      - yarn run electron:build
+      - yarn run build:unpack
       - cp -a ../dist/linux-unpacked /app/main
       - install -Dm755 -t /app/bin/ ../aonsoku.sh
       - install -Dm644 ../main/${FLATPAK_ID}.desktop      /app/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 ../main/${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
-      - install -Dm644 ../main/icons/icon-16x16.png       /app/share/icons/hicolor/16x16/apps/${FLATPAK_ID}.png
-      - install -Dm644 ../main/icons/icon-32x32.png       /app/share/icons/hicolor/32x32/apps/${FLATPAK_ID}.png
-      - install -Dm644 ../main/icons/icon-48x48.png       /app/share/icons/hicolor/48x48/apps/${FLATPAK_ID}.png
       - install -Dm644 ../main/icons/icon-128x128.png     /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
-      - install -Dm644 ../main/icons/icon-256x256.png     /app/share/icons/hicolor/256x256/apps/${FLATPAK_ID}.png
-      - install -Dm644 ../main/icons/icon-16x16.png       /app/main/resources/assets/tray/other/icon-16x16.png
-      - install -Dm644 ../main/icons/icon-32x32.png       /app/main/resources/assets/tray/other/icon-32x32.png
-      - install -Dm644 ../main/icons/icon-48x48.png       /app/main/resources/assets/tray/other/icon-48x48.png
-      - install -Dm644 ../main/icons/icon-128x128.png     /app/main/resources/assets/tray/other/icon-128x128.png
-      - install -Dm644 ../main/icons/icon-256x256.png     /app/main/resources/assets/tray/other/icon-256x256.png
     subdir: main
     sources:
       - type: git
         url: https://github.com/victoralvesf/aonsoku.git
-        #branch: main
-        commit: cb1b4c9269670b6e03166fa4985c74b643d61849
-        #tag: v0.10.2
-      - type: dir
-        path: .
+        commit: main
+      - type: file
+        path: io.github.victoralvesf.aonsoku.metainfo.xml
         dest: main
-      - generated-sources.json
+      - type: file
+        path: io.github.victoralvesf.aonsoku.desktop
+        dest: main
+      - type: dir
+        path: icons
+        dest: main/icons
+      - type: inline
+        dest-filename: .yarnrc
+        contents: |
+          yarn-offline-mirror "/run/build/aonsoku/flatpak-node/yarn-mirror"
+          cache-folder "/run/downloads"
+          prefix "/run/downloads"
+          --install.offline true
+          --run.offline true
+      - yarn-sources.json
+      - type: file
+        path: yarn.lock
+        dest: .
       - type: script
         dest-filename: aonsoku.sh
         commands:
