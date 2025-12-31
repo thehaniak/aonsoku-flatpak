@@ -77,3 +77,7 @@ remove: # Uninstall the Flatpak application
 
 lint: # Lint the Flatpak YAML file
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest ${FILE_YAML}
+
+sync-flathub:
+	cp -v io* ../flathub/
+	cp -v icon-128x128.png ../flathub/
