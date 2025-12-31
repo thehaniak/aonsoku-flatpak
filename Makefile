@@ -23,6 +23,9 @@ build-full-install: clean # Build the Flatpak package
 build-fast-install: clean-build-path # Build the Flatpak package without cleaning .flatpak-builder directory
 	flatpak-builder --user --install ${BUILD_PATH} ${FILE_YAML}
 
+build-aarch64: clean-build-path # Build the Flatpak package for aarch64
+	flatpak-builder --user --arch=aarch64 ${BUILD_PATH} ${FILE_YAML}
+
 build-export: build flatpak-export # Build and export the Flatpak package
 	@echo "[i] Flatpak package built and exported to ${FILE_FLATPAK}"
 
