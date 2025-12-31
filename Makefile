@@ -79,5 +79,10 @@ lint: # Lint the Flatpak YAML file
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest ${FILE_YAML}
 
 sync-flathub:
-	cp -v io* ../flathub/
-	cp -v icon-128x128.png ../flathub/
+	cp -v io.github.victoralvesf.aonsoku.yaml ../flathub/
+	cp -v yarn.lock ../flathub
+	cp -v yarn-sources.json ../flathub
+
+sync-aonsoku:
+	cp -v io.github.victoralvesf.aonsoku.metainfo.xml ../aonsoku/flatpak
+	cp -v io.github.victoralvesf.aonsoku.desktop ../aonsoku/flatpak

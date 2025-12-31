@@ -49,7 +49,7 @@ modules:
       - install -Dm755 -t /app/bin/ ../aonsoku.sh
       - install -Dm644 ../main/${FLATPAK_ID}.desktop      /app/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 ../main/${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
-      - install -Dm644 ../main/icon-128x128.png     /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
+      - install -Dm644 ../resources/icons/icon.png     /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
     subdir: main
     sources:
       - type: git
@@ -60,9 +60,6 @@ modules:
         dest: main
       - type: file
         path: io.github.victoralvesf.aonsoku.desktop
-        dest: main
-      - type: file
-        path: icon-128x128.png
         dest: main
       - type: inline
         dest-filename: .yarnrc
