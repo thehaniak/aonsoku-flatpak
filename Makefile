@@ -2,6 +2,7 @@
 
 FLATPACK_ID = io.github.victoralvesf.aonsoku
 FILE_YAML = ${FLATPACK_ID}.yaml
+FILE_METAINFO = ${FLATPACK_ID}.metainfo.xml
 FILE_FLATPAK = ${FLATPACK_ID}.flatpak
 
 OPTS = --arch=x86_64 --force-clean --user --verbose
@@ -78,6 +79,9 @@ uninstall: # Uninstall the Flatpak application
 
 lint: # Lint the Flatpak YAML file
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest ${FILE_YAML}
+
+lint-metainfo:
+	flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream ${FILE_METAINFO}
 
 sync-flathub:
 	cp -v io.github.victoralvesf.aonsoku.yaml ../flathub/
