@@ -55,7 +55,7 @@ modules:
       #   commit: 1ab6b29009fab7980f08bb20fde64dc647a4c492
       - type: git
         url: https://github.com/thehaniak/aonsoku.git
-        commit: 7aeea94389566b1ce759b4654e214e22cfdad99a
+        commit: fb9b9f3ff09a06f0f7fd8a1e4d7af7f70dedde92
       - type: inline
         dest-filename: .yarnrc
         contents: |
