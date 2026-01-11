@@ -50,9 +50,12 @@ modules:
       - install -Dm644 flatpak/${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
       - install -Dm644 resources/icons/icon.png     /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
     sources:
+      # - type: git
+      #   url: https://github.com/victoralvesf/aonsoku.git
+      #   commit: 1ab6b29009fab7980f08bb20fde64dc647a4c492
       - type: git
-        url: https://github.com/victoralvesf/aonsoku.git
-        commit: 1ab6b29009fab7980f08bb20fde64dc647a4c492
+        url: https://github.com/thehaniak/aonsoku.git
+        commit: 7aeea94389566b1ce759b4654e214e22cfdad99a
       - type: inline
         dest-filename: .yarnrc
         contents: |
