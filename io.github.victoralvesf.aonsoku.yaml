@@ -20,6 +20,7 @@ finish-args:
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=xdg-run/tray-icon:create
   - --talk-name=com.canonical.AppIndicator
+  - --own-name=org.mpris.MediaPlayer2.*
 build-options:
   append-path: /usr/lib/sdk/node24/bin
   env:

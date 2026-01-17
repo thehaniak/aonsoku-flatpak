@@ -72,7 +72,7 @@ generated-sources: clean flatpak-node-generator # Update node modules in the Fla
 	rm -rf temp-aonsoku
 
 run: # Run the Flatpak application
-	flatpak run ${FLATPACK_ID} --trace-deprecation --verbose --ostree-verbose --filesystem=xdg-desktop:create --filesystem=home
+	flatpak run ${FLATPACK_ID} --trace-deprecation --verbose --ostree-verbose
 
 uninstall: # Uninstall the Flatpak application
 	flatpak uninstall -y ${FLATPACK_ID}
