@@ -74,8 +74,8 @@ generated-sources: clean flatpak-node-generator # Update node modules in the Fla
 run: # Run the Flatpak application
 	flatpak run ${FLATPACK_ID} --trace-deprecation --verbose --ostree-verbose
 
-uninstall: # Uninstall the Flatpak application
-	flatpak uninstall -y ${FLATPACK_ID}
+remove: # Uninstall the Flatpak application
+	flatpak remove -y ${FLATPACK_ID}
 
 lint: # Lint the Flatpak YAML file
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder manifest ${FILE_YAML}
