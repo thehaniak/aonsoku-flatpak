@@ -5,6 +5,8 @@ FILE_YAML = ${FLATPACK_ID}.yaml
 FILE_METAINFO = ${FLATPACK_ID}.metainfo.xml
 FILE_FLATPAK = ${FLATPACK_ID}.flatpak
 
+COMMIT_HASH = "b636cf0db538dcc273263385c744cf013d79808c"
+
 OPTS = --arch=x86_64 --force-clean --user --verbose
 OPTS_INSTALL = ${OPTS} --install
 OPTS_FULL_INSTALL = ${OPTS_INSTALL} --install-deps-from=flathub
@@ -47,7 +49,8 @@ setup-venv: # Create a Python virtual environment
 	python3 -m venv .venv
 
 flatpak-node-generator: setup-venv # Install flatpak-node-generator in the virtual environment
-	. .venv/bin/activate && pip install flatpak-node-generator
+	. .venv/bin/activate && \
+	pip install flatpak-node-generator
 
 clean: # Clean up build artifacts
 	rm -rf .flatpak-builder ${BUILD_PATH} export temp-aonsoku ${FILE_FLATPAK}
@@ -57,10 +60,11 @@ clean-build-path: # Clean up only the build path
 
 yarn-sources: clean flatpak-node-generator # Update node modules in the Flatpak package
 	git clone https://github.com/victoralvesf/aonsoku.git temp-aonsoku
+	cd temp-aonsoku && git checkout ${COMMIT_HASH}
 	cd temp-aonsoku && ${YARN_BIN} cache clean && rm -rf node_modules package-lock.json yarn.lock pnpm-lock.yaml
 	${YARN_BIN} --cwd temp-aonsoku install
 	cd temp-aonsoku && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json pnpm-lock.yaml
-	cd temp-aonsoku && flatpak-node-generator yarn -r yarn.lock --no-trim-index --electron-node-headers -o ../yarn-sources.json
+	cd temp-aonsoku && ../.venv/bin/flatpak-node-generator yarn -r yarn.lock --no-trim-index --electron-node-headers -o ../yarn-sources.json
 	cp temp-aonsoku/yarn.lock yarn.lock
 	rm -rf temp-aonsoku
 
@@ -68,7 +72,7 @@ generated-sources: clean flatpak-node-generator # Update node modules in the Fla
 	git clone https://github.com/victoralvesf/aonsoku.git temp-aonsoku
 	cd temp-aonsoku && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json
 	cd temp-aonsoku && npm i --lockfile-version 3
-	cd temp-aonsoku && flatpak-node-generator npm -r package-lock.json --no-trim-index --electron-node-headers -o ../generated-sources.json
+	cd temp-aonsoku && ../.venv/bin/flatpak-node-generator npm -r package-lock.json --no-trim-index --electron-node-headers -o ../generated-sources.json
 	rm -rf temp-aonsoku
 
 run: # Run the Flatpak application
