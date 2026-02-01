@@ -5,7 +5,7 @@ FILE_YAML = ${FLATPACK_ID}.yaml
 FILE_METAINFO = ${FLATPACK_ID}.metainfo.xml
 FILE_FLATPAK = ${FLATPACK_ID}.flatpak
 
-COMMIT_HASH = "b636cf0db538dcc273263385c744cf013d79808c"
+COMMIT_HASH = "b03bb6ac9e445480099b3482ccd0afcd24933458"
 
 OPTS = --arch=x86_64 --force-clean --user --verbose
 OPTS_INSTALL = ${OPTS} --install
@@ -86,11 +86,6 @@ lint: # Lint the Flatpak YAML file
 
 lint-metainfo:
 	flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream ${FILE_METAINFO}
-
-sync-flathub:
-	cp -v io.github.victoralvesf.aonsoku.yaml ../flathub/
-	cp -v yarn.lock ../flathub
-	cp -v yarn-sources.json ../flathub
 
 sync-aonsoku:
 	cp -v io.github.victoralvesf.aonsoku.metainfo.xml ../aonsoku/flatpak
