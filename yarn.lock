@@ -26,7 +26,7 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.29.0.tgz#00d03e8c0ac24dd9be942c5370990cbe1f17d88d"
   integrity sha512-T1NCJqT/j9+cn8fvkt7jtwbLBfLC/1y1c7NtCeXFRgzGTsafi68MRv8yzkYSapBnFA6L3U2VSc02ciDzoAJhJg==
 
-"@babel/core@^7.28.4", "@babel/core@^7.28.5":
+"@babel/core@^7.28.4", "@babel/core@^7.29.0":
   version "7.29.0"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.29.0.tgz#5286ad785df7f79d656e88ce86e650d16ca5f322"
   integrity sha512-CGOfOJqWjg2qW/Mb6zNsDm+u5vFQ8DxXfbM09z69p5Z6+mE1ikP2jUXw+j42Pf1XTYED2Rni5f95npYeuwMDQA==
@@ -1406,10 +1406,10 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.23.2.tgz#156c4b481c0bee22a19f7924728a67120de06971"
   integrity sha512-Ic6m2U/rMjTkhERIa/0ZtXJP17QUi2CbWE7cqx4J58M8aA3QTfW+2UlQ4psvTX9IO1RfNVhK3pcpdjej7L+t2w==
 
-"@rolldown/pluginutils@1.0.0-beta.53":
-  version "1.0.0-beta.53"
-  resolved "https://registry.yarnpkg.com/@rolldown/pluginutils/-/pluginutils-1.0.0-beta.53.tgz#c57a5234ae122671aff6fe72e673a7ed90f03f87"
-  integrity sha512-vENRlFU4YbrwVqNDZ7fLvy+JR1CRkyr01jhSiDpE1u6py3OMzQfztQU2jxykW3ALNxO4kSlqIDeYyD0Y9RcQeQ==
+"@rolldown/pluginutils@1.0.0-rc.2":
+  version "1.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@rolldown/pluginutils/-/pluginutils-1.0.0-rc.2.tgz#10324e74cb3396cb7b616042ea7e9e6aa7d8d458"
+  integrity sha512-izyXV/v+cHiRfozX62W9htOAvwMo4/bXKDrQ+vom1L1qRuexPock/7VZDAhnpHCLNejd3NJ6hiab+tO0D44Rgw==
 
 "@rollup/rollup-android-arm-eabi@4.57.1":
   version "4.57.1"
@@ -1718,9 +1718,9 @@
   integrity sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==
 
 "@types/node@*":
-  version "25.1.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-25.1.0.tgz#95cc584f1f478301efc86de4f1867e5875e83571"
-  integrity sha512-t7frlewr6+cbx+9Ohpl0NOTKXZNV9xHRmNOvql47BFJKcEG1CxtxlPEEe+gR9uhVWM4DwhnvTF110mIL4yP9RA==
+  version "25.2.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-25.2.0.tgz#015b7d228470c1dcbfc17fe9c63039d216b4d782"
+  integrity sha512-DZ8VwRFUNzuqJ5khrvwMXHmvPe+zGayJhr2CDNiKB1WBE1ST8Djl00D0IC4vvNmHMdj6DlbYRIaFE7WHjlDl5w==
   dependencies:
     undici-types "~7.16.0"
 
@@ -1851,14 +1851,14 @@
   integrity sha512-E0krspmtVOGRg/qAgDKUjhTRV7VXmFp7Q05ljT87Llffh8g5JoXVsAUPV7JiRKnrSRFShpiVdCy9eq0VvVeifA==
 
 "@vitejs/plugin-react@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/@vitejs/plugin-react/-/plugin-react-5.1.2.tgz#46f47be184c05a18839cb8705d79578b469ac6eb"
-  integrity sha512-EcA07pHJouywpzsoTUqNh5NwGayl2PPVEJKUSinGGSxFGYn+shYbqMGBg6FXDqgXum9Ou/ecb+411ssw8HImJQ==
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/@vitejs/plugin-react/-/plugin-react-5.1.3.tgz#05eba092cc89a6ff89668d3f62258e2c5a8a9122"
+  integrity sha512-NVUnA6gQCl8jfoYqKqQU5Clv0aPw14KkZYCsX6T9Lfu9slI0LOU10OTwFHS/WmptsMMpshNd/1tuWsHQ2Uk+cg==
   dependencies:
-    "@babel/core" "^7.28.5"
+    "@babel/core" "^7.29.0"
     "@babel/plugin-transform-react-jsx-self" "^7.27.1"
     "@babel/plugin-transform-react-jsx-source" "^7.27.1"
-    "@rolldown/pluginutils" "1.0.0-beta.53"
+    "@rolldown/pluginutils" "1.0.0-rc.2"
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.18.0"
 
@@ -2331,9 +2331,9 @@ camelcase-css@^2.0.1:
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
 caniuse-lite@^1.0.30001759, caniuse-lite@^1.0.30001766:
-  version "1.0.30001766"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001766.tgz#b6f6b55cb25a2d888d9393104d14751c6a7d6f7a"
-  integrity sha512-4C0lfJ0/YPjJQHagaE9x2Elb69CIqEPZeG0anQt9SIvIoOH4a4uaRl73IavyO+0qZh6MDLH//DrXThEYKHkmYA==
+  version "1.0.30001767"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001767.tgz#0279c498e862efb067938bba0a0aabafe8d0b730"
+  integrity sha512-34+zUAMhSH+r+9eKmYG+k2Rpt8XttfE4yXAjoZvkAPs15xcYQhyBYdalJ65BzivAvGRMViEjy6oKr/S91loekQ==
 
 caseless@~0.12.0:
   version "0.12.0"

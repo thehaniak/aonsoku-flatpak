@@ -53,7 +53,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/victoralvesf/aonsoku.git
-        commit: b03bb6ac9e445480099b3482ccd0afcd24933458
+        commit: 3ee88828183228fd7f75d7730db94ea14f340ef1
       - type: inline
         dest-filename: .yarnrc
         contents: |
