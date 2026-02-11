@@ -20,7 +20,10 @@ finish-args:
   - --talk-name=org.kde.StatusNotifierWatcher
   - --filesystem=xdg-run/tray-icon:create
   - --talk-name=com.canonical.AppIndicator
+  # fix media player controls
   - --own-name=org.mpris.MediaPlayer2.chromium.*
+  # fix discord rich presence
+  - --filesystem=xdg-run/app/com.discordapp.Discord:create
 build-options:
   append-path: /usr/lib/sdk/node24/bin
   env:
