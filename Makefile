@@ -5,8 +5,6 @@ FILE_YAML = ${FLATPACK_ID}.yaml
 FILE_METAINFO = ${FLATPACK_ID}.metainfo.xml
 FILE_FLATPAK = ${FLATPACK_ID}.flatpak
 
-COMMIT_HASH = "3ee88828183228fd7f75d7730db94ea14f340ef1"
-
 OPTS = --arch=x86_64 --force-clean --user --verbose
 OPTS_INSTALL = ${OPTS} --install
 OPTS_FULL_INSTALL = ${OPTS_INSTALL} --install-deps-from=flathub
@@ -14,11 +12,11 @@ OPTS_FULL_INSTALL = ${OPTS_INSTALL} --install-deps-from=flathub
 BUILD_PATH=build
 YARN_BIN=$(shell which yarnpkg || which yarn)
 
-build: clean # Build the Flatpak package without installing
-	flatpak-builder ${OPTS} ${BUILD_PATH} ${FILE_YAML}
-
-build-install: clean # Build the Flatpak package with dependencies already installed
+build: clean # Build the Flatpak package with dependencies already installed
 	flatpak-builder ${OPTS_INSTALL} ${BUILD_PATH} ${FILE_YAML}
+
+build-no-install: clean # Build the Flatpak package without installing
+	flatpak-builder ${OPTS} ${BUILD_PATH} ${FILE_YAML}
 
 build-full-install: clean # Build the Flatpak package
 	flatpak-builder ${OPTS_FULL_INSTALL} ${BUILD_PATH} ${FILE_YAML}
@@ -45,35 +43,11 @@ install-dependencies-locally: # Install Flatpak runtime and SDK dependencies loc
 	flatpak install -y --user flathub org.gnome.Platform//46
 	flatpak install -y --user flathub org.gnome.Sdk//46
 
-setup-venv: # Create a Python virtual environment
-	python3 -m venv .venv
-
-flatpak-node-generator: setup-venv # Install flatpak-node-generator in the virtual environment
-	. .venv/bin/activate && \
-	pip install flatpak-node-generator
-
 clean: # Clean up build artifacts
 	rm -rf .flatpak-builder ${BUILD_PATH} export temp-aonsoku ${FILE_FLATPAK}
 
 clean-build-path: # Clean up only the build path
 	rm -rf ${BUILD_PATH}
-
-yarn-sources: clean flatpak-node-generator # Update node modules in the Flatpak package
-	git clone https://github.com/victoralvesf/aonsoku.git temp-aonsoku
-	cd temp-aonsoku && git checkout ${COMMIT_HASH}
-	cd temp-aonsoku && ${YARN_BIN} cache clean && rm -rf node_modules package-lock.json yarn.lock pnpm-lock.yaml
-	${YARN_BIN} --cwd temp-aonsoku install
-	cd temp-aonsoku && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json pnpm-lock.yaml
-	cd temp-aonsoku && ../.venv/bin/flatpak-node-generator yarn -r yarn.lock --no-trim-index --electron-node-headers -o ../yarn-sources.json
-	cp temp-aonsoku/yarn.lock yarn.lock
-	rm -rf temp-aonsoku
-
-generated-sources: clean flatpak-node-generator # Update node modules in the Flatpak package
-	git clone https://github.com/victoralvesf/aonsoku.git temp-aonsoku
-	cd temp-aonsoku && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json
-	cd temp-aonsoku && npm i --lockfile-version 3
-	cd temp-aonsoku && ../.venv/bin/flatpak-node-generator npm -r package-lock.json --no-trim-index --electron-node-headers -o ../generated-sources.json
-	rm -rf temp-aonsoku
 
 run: # Run the Flatpak application
 	flatpak run ${FLATPACK_ID} --trace-deprecation --verbose --ostree-verbose
