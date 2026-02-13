@@ -30,7 +30,8 @@ build-options:
     NPM_CONFIG_LOGLEVEL: info
 modules:
   - name: aonsoku
-    only-arches: [x86_64]
+    only-arches: ["x86_64"]
+    skip-arches: ["aarch64"]
     buildsystem: simple
     build-commands:
       - chmod +x Aonsoku-*.AppImage
