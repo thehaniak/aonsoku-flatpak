@@ -4,8 +4,6 @@ runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 base: org.electronjs.Electron2.BaseApp
 base-version: '25.08'
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.node24
 command: aonsoku.sh
 separate-locales: false
 finish-args:
@@ -24,10 +22,6 @@ finish-args:
   - --own-name=org.mpris.MediaPlayer2.chromium.*
   # discord rich presence
   - --filesystem=xdg-run/app/com.discordapp.Discord:create
-build-options:
-  append-path: /usr/lib/sdk/node24/bin
-  env:
-    NPM_CONFIG_LOGLEVEL: info
 modules:
   - name: aonsoku
     only-arches: ["x86_64"]
