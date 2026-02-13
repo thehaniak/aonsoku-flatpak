@@ -5,7 +5,9 @@ FILE_YAML = ${FLATPACK_ID}.yaml
 FILE_METAINFO = ${FLATPACK_ID}.metainfo.xml
 FILE_FLATPAK = ${FLATPACK_ID}.flatpak
 
-OPTS = --arch=x86_64 --force-clean --user --verbose
+# --arch=x86_64
+
+OPTS = --force-clean --user --verbose
 OPTS_INSTALL = ${OPTS} --install
 OPTS_FULL_INSTALL = ${OPTS_INSTALL} --install-deps-from=flathub
 
