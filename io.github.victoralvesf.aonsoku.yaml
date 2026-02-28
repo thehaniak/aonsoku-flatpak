@@ -22,13 +22,18 @@ finish-args:
   - --own-name=org.mpris.MediaPlayer2.chromium.*
 modules:
   - name: aonsoku
-    only-arches: ["x86_64"]
-    skip-arches: ["aarch64"]
     buildsystem: simple
     build-commands:
-      - chmod +x Aonsoku-*.AppImage
-      - ./Aonsoku-*.AppImage --appimage-extract
-      - mv squashfs-root /app/bin/aonsoku
+      - rm -f pnpm-lock.yaml
+      - rm -rf node_modules
+      - rm -f package-lock.json
+      - yarn cache clean --offline
+      - ELECTRON_SKIP_BINARY_DOWNLOAD=1 CYPRESS_INSTALL_BINARY=0 yarn --offline
+      - yarn run electron:build
+      - |
+        . ./flatpak-node/electron-builder-arch-args.sh
+        yarn run build:unpack $ELECTRON_BUILDER_ARCH_ARGS
+      - cp -a dist/linux*unpacked /app/main
       - install -Dm755 -t /app/bin/ aonsoku.sh
       - install -Dm644 flatpak/${FLATPAK_ID}.desktop      /app/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 flatpak/${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
