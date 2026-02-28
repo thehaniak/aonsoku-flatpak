@@ -4,6 +4,8 @@ runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 base: org.electronjs.Electron2.BaseApp
 base-version: '25.08'
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node24
 command: aonsoku.sh
 separate-locales: false
 finish-args:
@@ -20,32 +22,49 @@ finish-args:
   - --talk-name=com.canonical.AppIndicator
   # media player controls
   - --own-name=org.mpris.MediaPlayer2.chromium.*
-  # discord rich presence
-  - --filesystem=xdg-run/app/com.discordapp.Discord:create
+build-options:
+  append-path: /usr/lib/sdk/node24/bin
 modules:
   - name: aonsoku
-    only-arches: ["x86_64"]
-    skip-arches: ["aarch64"]
     buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/node24/bin
+      env:
+        npm_config_nodedir: /usr/lib/sdk/node24
+        XDG_CACHE_HOME: /run/build/aonsoku/flatpak-node/cache
+        npm_config_cache: /run/build/aonsoku/flatpak-node/npm-cache
+        npm_config_offline: 'true'
     build-commands:
-      - chmod +x Aonsoku-*.AppImage
-      - ./Aonsoku-*.AppImage --appimage-extract
-      - mv squashfs-root /app/bin/aonsoku
+      - rm -f pnpm-lock.yaml
+      - rm -rf node_modules
+      - rm -f package-lock.json
+      - yarn cache clean --offline
+      - ELECTRON_SKIP_BINARY_DOWNLOAD=1 CYPRESS_INSTALL_BINARY=0 yarn --offline
+      - yarn run electron:build
+      - |
+        . ./flatpak-node/electron-builder-arch-args.sh
+        yarn run build:unpack $ELECTRON_BUILDER_ARCH_ARGS
+      - cp -a dist/linux*unpacked /app/main
       - install -Dm755 -t /app/bin/ aonsoku.sh
       - install -Dm644 flatpak/${FLATPAK_ID}.desktop      /app/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 flatpak/${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
       - install -Dm644 resources/icons/icon.png     /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.png
     sources:
-      - type: file
-        url: https://github.com/victoralvesf/aonsoku/releases/download/v0.12.0/Aonsoku-v0.12.0-linux-x86_64.AppImage
-        sha256: 2c7ec02639b56e426249d1c3c6ad8090a411552e4613fd2bf239eeaf754dea74
       - type: git
         url: https://github.com/victoralvesf/aonsoku.git
-        commit: 3ee88828183228fd7f75d7730db94ea14f340ef1
+        commit: e0aa722d019b807f26d585a09e2e1bae7385bf72
+      - type: inline
+        dest-filename: .yarnrc
+        contents: |
+          yarn-offline-mirror "/run/build/aonsoku/flatpak-node/yarn-mirror"
+          cache-folder "/run/downloads"
+          prefix "/run/downloads"
+          --install.offline true
+          --run.offline true
+      - yarn-sources.json
+      - type: file
+        path: yarn.lock
       - type: script
         dest-filename: aonsoku.sh
         commands:
-          - for i in {0..9}; do
-          - test -S $XDG_RUNTIME_DIR/discord-ipc-$i || ln -sf {app/com.discordapp.Discord,$XDG_RUNTIME_DIR}/discord-ipc-$i;
-          - done
-          - zypak-wrapper /app/bin/aonsoku/aonsoku "$@"
+          - zypak-wrapper /app/main/aonsoku "$@"
