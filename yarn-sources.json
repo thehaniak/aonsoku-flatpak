@@ -5221,9 +5221,9 @@
     },
     {
         "type": "file",
-        "url": "https://registry.yarnpkg.com/pump/-/pump-3.0.3.tgz#151d979f1a29668dc0025ec589a455b53282268d",
-        "sha512": "b68770c4b318eff85e49c2a69edc101bc09756459439d63122f636b34556000321fe777c4a862245a2a396befe882b3df387f63fccefadf59c0c36156fbdcd7c",
-        "dest-filename": "pump-3.0.3.tgz",
+        "url": "https://registry.yarnpkg.com/pump/-/pump-3.0.4.tgz#1f313430527fa8b905622ebd22fe1444e757ab3c",
+        "sha512": "552eec8dce8a47b7b5ba4445850498e4b336b8158050f88e3dafc0de690a9a23304a64455084edd31ba3fbf95eb209c2bfe74f204625933adcc9782ab881cc70",
+        "dest-filename": "pump-3.0.4.tgz",
         "dest": "flatpak-node/yarn-mirror"
     },
     {
