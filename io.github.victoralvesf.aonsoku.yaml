@@ -22,9 +22,18 @@ finish-args:
   - --talk-name=com.canonical.AppIndicator
   # media player controls
   - --own-name=org.mpris.MediaPlayer2.chromium.*
+build-options:
+  append-path: /usr/lib/sdk/node24/bin
 modules:
   - name: aonsoku
     buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/node24/bin
+      env:
+        npm_config_nodedir: /usr/lib/sdk/node24
+        XDG_CACHE_HOME: /run/build/aonsoku/flatpak-node/cache
+        npm_config_cache: /run/build/aonsoku/flatpak-node/npm-cache
+        npm_config_offline: 'true'
     build-commands:
       - rm -f pnpm-lock.yaml
       - rm -rf node_modules
@@ -58,4 +67,4 @@ modules:
       - type: script
         dest-filename: aonsoku.sh
         commands:
-          - zypak-wrapper /app/bin/aonsoku "$@"
+          - zypak-wrapper /app/main/aonsoku "$@"
