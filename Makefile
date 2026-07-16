@@ -5,7 +5,7 @@ FILE_YAML = ${FLATPACK_ID}.yaml
 FILE_METAINFO = ${FLATPACK_ID}.metainfo.xml
 FILE_FLATPAK = ${FLATPACK_ID}.flatpak
 
-COMMIT_HASH = "25512728f1ebe2a18e2938400a1a3418eb0b89ce"
+COMMIT_HASH = "9d5197c4f28040076d06dafa892215a9b65a873f"
 
 OPTS = --arch=x86_64 --force-clean --user --verbose
 OPTS_INSTALL = ${OPTS} --install
@@ -44,6 +44,9 @@ install-dependencies-locally: # Install Flatpak runtime and SDK dependencies loc
 	flatpak install -y --user flathub org.freedesktop.Sdk.Extension.node24//25.08
 	flatpak install -y --user flathub org.gnome.Platform//46
 	flatpak install -y --user flathub org.gnome.Sdk//46
+	sudo apt install -y flatpak-builder nodejs npm yarnpkg
+	sudo npm install -g yarn@1.22.22
+	sudo npm install -gpnpm@11.9.0
 
 setup-venv: # Create a Python virtual environment
 	python3 -m venv .venv
@@ -61,8 +64,9 @@ clean-build-path: # Clean up only the build path
 yarn-sources: clean flatpak-node-generator # Update node modules in the Flatpak package
 	git clone https://github.com/victoralvesf/aonsoku.git temp-aonsoku
 	cd temp-aonsoku && git checkout ${COMMIT_HASH}
+	cd temp-aonsoku && sed -i '/packageManager/d' package.json
 	cd temp-aonsoku && ${YARN_BIN} cache clean && rm -rf node_modules package-lock.json yarn.lock pnpm-lock.yaml
-	${YARN_BIN} --cwd temp-aonsoku install
+	${YARN_BIN} --cwd temp-aonsoku install --production --mode=skip-build --network-timeout 100000
 	cd temp-aonsoku && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json pnpm-lock.yaml
 	cd temp-aonsoku && ../.venv/bin/flatpak-node-generator yarn -r yarn.lock --no-trim-index --electron-node-headers -o ../yarn-sources.json
 	cp temp-aonsoku/yarn.lock yarn.lock
@@ -70,6 +74,7 @@ yarn-sources: clean flatpak-node-generator # Update node modules in the Flatpak 
 
 generated-sources: clean flatpak-node-generator # Update node modules in the Flatpak package
 	git clone https://github.com/victoralvesf/aonsoku.git temp-aonsoku
+	cd temp-aonsoku && git checkout ${COMMIT_HASH}
 	cd temp-aonsoku && npm cache clean -g --force --verbose && rm -rf node_modules package-lock.json
 	cd temp-aonsoku && npm i --lockfile-version 3
 	cd temp-aonsoku && ../.venv/bin/flatpak-node-generator npm -r package-lock.json --no-trim-index --electron-node-headers -o ../generated-sources.json
