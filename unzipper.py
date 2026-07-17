@@ -1,15 +1,15 @@
 import os
 import zipfile
 
-cache = '/run/build/aonsoku/flatpak-node-cache/electron'
+cache = '/run/build/aonsoku/flatpak-node/cache/electron'
 arch = os.environ.get('ARCH', 'x64')
 
 if arch == 'arm64':
     zip_name = 'electron-v42.6.1-linux-arm64.zip'
-    extract_dir = 'electron-v42.6.1-linux-arm64'
+    extract_dir = '.'
 else:
     zip_name = 'electron-v42.6.1-linux-x64.zip'
-    extract_dir = 'electron-v42.6.1-linux-x64'
+    extract_dir = '.'
 
 zip_path = os.path.join(cache, zip_name)
 extract_to = os.path.join(cache, extract_dir)
