@@ -25,6 +25,6 @@ This one will clear all downloaded packages and start the build. If successful, 
 
     `make build-install`
 
-If the package build fails, you can try a fast build, which **will not clean the environment (delete old builds) and will not download the sources**
+If the package build fails, you can try a fast build, which **will not clean the environment (delete old builds) and will not download the sources**.
 
     `make build-fast-install`
